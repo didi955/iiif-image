@@ -15,7 +15,7 @@ public class BadRequestException extends RuntimeException {
     }
 
     public ResponseEntity<String> sendResponse(){
-        String json = "{\"error\": \"" + this.message + "\"}";
+        String json = "{\"error\":\"" + this.message + "\"}";
         return ResponseEntity.status(NOT_FOUND).contentType(MediaType.APPLICATION_JSON).body(json);
     }
 

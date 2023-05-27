@@ -28,10 +28,18 @@ public class ImageUtil {
         return resource;
     }
 
+    /**
+     * Parse format to MediaType
+     * @param format String : jpg, tif, png, gif according to <a href="https://iiif.io/api/image/3.0/#51-image-information-request">IIIF 3.0 specifications</a>
+     * @return MediaType
+     */
     public static MediaType parseMediaType(String format) {
         return switch (format) {
             case "jpg" -> MediaType.parseMediaType("image/jpeg");
             case "tif" -> MediaType.parseMediaType("image/tiff");
+            case "png" -> MediaType.parseMediaType("image/png");
+            case "gif" -> MediaType.parseMediaType("image/gif");
+            case "jp2" -> MediaType.parseMediaType("image/jp2");
             default -> MediaType.parseMediaType("image/" + format);
         };
     }

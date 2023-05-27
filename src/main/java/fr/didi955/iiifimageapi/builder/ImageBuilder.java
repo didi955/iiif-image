@@ -3,6 +3,7 @@ package fr.didi955.iiifimageapi.builder;
 import fr.didi955.iiifimageapi.factory.QualityFactory;
 import fr.didi955.iiifimageapi.factory.RegionFactory;
 import fr.didi955.iiifimageapi.factory.RotationFactory;
+import fr.didi955.iiifimageapi.factory.SizeFactory;
 
 import java.awt.image.BufferedImage;
 
@@ -21,6 +22,8 @@ public class ImageBuilder {
     }
 
     public ImageBuilder size(String size) throws IllegalArgumentException {
+        SizeFactory factory = new SizeFactory(this.image);
+        this.image = factory.getSizedImage(size);
         return this;
     }
 
