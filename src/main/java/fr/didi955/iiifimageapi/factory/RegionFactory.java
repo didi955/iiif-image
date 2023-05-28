@@ -17,11 +17,11 @@ public class RegionFactory {
             return getSquareRegionImage();
         } else if (isRegionValid(region)) {
             int[] regionValues = parseRegionValues(region);
+            adjustRegionValues(region, regionValues);
             int x = regionValues[0];
             int y = regionValues[1];
             int width = regionValues[2];
             int height = regionValues[3];
-            adjustRegionValues(region, regionValues);
             return image.getSubimage(x, y, width, height);
         } else {
             throw new IllegalArgumentException("Region format is not valid");
@@ -50,11 +50,11 @@ public class RegionFactory {
 
     private boolean isWithinImageBounds(String region) {
         int[] regionValues = parseRegionValues(region);
+        adjustRegionValues(region, regionValues);
         int x = regionValues[0];
         int y = regionValues[1];
         int width = regionValues[2];
         int height = regionValues[3];
-        adjustRegionValues(region, regionValues);
         return x <= image.getWidth() && y <= image.getHeight() && width <= image.getWidth() && height <= image.getHeight();
     }
 
