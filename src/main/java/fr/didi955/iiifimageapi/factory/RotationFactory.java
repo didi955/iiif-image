@@ -1,5 +1,7 @@
 package fr.didi955.iiifimageapi.factory;
 
+import fr.didi955.iiifimageapi.exception.BadRequestException;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -31,7 +33,7 @@ public class RotationFactory {
             return rotateImage(degrees, mirror);
         }
         else {
-            throw new IllegalArgumentException("Rotation format is not valid");
+            throw new BadRequestException("Rotation format is not valid");
         }
     }
 

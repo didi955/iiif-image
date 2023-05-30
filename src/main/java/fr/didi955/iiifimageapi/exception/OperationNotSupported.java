@@ -3,21 +3,19 @@ package fr.didi955.iiifimageapi.exception;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
 
-public class BadRequestException extends RuntimeException {
+public class OperationNotSupported extends RuntimeException {
 
     private final String message;
 
-    public BadRequestException(String message) {
+    public OperationNotSupported(String message) {
         super(message);
         this.message = message;
     }
 
     public ResponseEntity<String> sendResponse(){
         String json = "{\"error\":\"" + this.message + "\"}";
-        return ResponseEntity.status(BAD_REQUEST).contentType(MediaType.APPLICATION_JSON).body(json);
+        return ResponseEntity.status(NOT_IMPLEMENTED).contentType(MediaType.APPLICATION_JSON).body(json);
     }
-
-
 }

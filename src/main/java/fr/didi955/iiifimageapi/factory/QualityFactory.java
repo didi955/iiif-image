@@ -1,5 +1,7 @@
 package fr.didi955.iiifimageapi.factory;
 
+import fr.didi955.iiifimageapi.exception.BadRequestException;
+
 import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
@@ -23,7 +25,7 @@ public class QualityFactory {
             return processQuality(quality);
         }
         else {
-            throw new IllegalArgumentException("Quality format is not valid");
+            throw new BadRequestException("Quality format is not valid");
         }
     }
 
@@ -38,8 +40,6 @@ public class QualityFactory {
             case "bitonal" -> bitonal();
             default -> throw new IllegalArgumentException("Quality format is not valid");
         };
-
-
     }
 
      private BufferedImage gray(){

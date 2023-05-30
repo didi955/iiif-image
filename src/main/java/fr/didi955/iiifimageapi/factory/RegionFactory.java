@@ -1,5 +1,7 @@
 package fr.didi955.iiifimageapi.factory;
 
+import fr.didi955.iiifimageapi.exception.BadRequestException;
+
 import java.awt.image.BufferedImage;
 
 public class RegionFactory {
@@ -24,7 +26,7 @@ public class RegionFactory {
             int height = regionValues[3];
             return image.getSubimage(x, y, width, height);
         } else {
-            throw new IllegalArgumentException("Region format is not valid");
+            throw new BadRequestException("Region format is not valid");
         }
     }
 

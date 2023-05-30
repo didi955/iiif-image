@@ -1,5 +1,8 @@
 package fr.didi955.iiifimageapi.factory;
 
+import fr.didi955.iiifimageapi.exception.BadRequestException;
+import fr.didi955.iiifimageapi.exception.OperationNotSupported;
+
 import java.awt.image.BufferedImage;
 
 public class SizeFactory {
@@ -15,6 +18,9 @@ public class SizeFactory {
         if(size.equals("max")){
             return this.image;
         }
+        else if(size.startsWith("^")){
+            throw new OperationNotSupported("Upscaling is not supported");
+        }
         else if(isSizeValid(size)){
             int[] sizeValues = parseSizeValues(size);
             int width = sizeValues[0];
@@ -22,7 +28,7 @@ public class SizeFactory {
             return this.image.getSubimage(0, 0, width, height);
         }
         else {
-            throw new IllegalArgumentException("Size format is not valid");
+            throw new BadRequestException("Size format is not valid");
         }
 
     }
