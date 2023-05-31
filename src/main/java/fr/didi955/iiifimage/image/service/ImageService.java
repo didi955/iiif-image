@@ -59,7 +59,9 @@ public class ImageService {
 
         // TODO: Make format file generic
 
-        URL resourceUrl = getClass().getResource("/images/" + inventoryNumber.replace(".", "_") + ".tif");
+        String url = "/images/" + inventoryNumber.replace(".", "_") + ".tif";
+
+        URL resourceUrl = getClass().getResource(url.toLowerCase());
         if(resourceUrl == null) {
             throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
         }
