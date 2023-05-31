@@ -1,26 +1,28 @@
 package fr.didi955.iiifimageapi;
 
-import fr.didi955.iiifimageapi.entity.ImageInfo;
-import fr.didi955.iiifimageapi.exception.BadRequestException;
-import fr.didi955.iiifimageapi.service.ImageService;
+import fr.didi955.iiifimageapi.image.entity.ImageInfo;
+import fr.didi955.iiifimageapi.image.service.ImageService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.concurrent.ExecutionException;
 
 @RestController
 @EnableAsync
-@RequestMapping("/iiif")
+@RequestMapping("/image")
 public class ImageController {
 
     @Autowired
     private ImageService imageService;
 
-    @GetMapping("/image/{id}/{region}/{size}/{rotation}/{quality}.{format}")
+    @GetMapping("/{id}/{region}/{size}/{rotation}/{quality}.{format}")
     public @ResponseBody ResponseEntity<?> getImage(@PathVariable(value = "id") String inventoryNumber,
                                                                                          @PathVariable(value = "region") String region,
                                                                                          @PathVariable(value = "size") String size,
@@ -29,16 +31,15 @@ public class ImageController {
                                                                                          @PathVariable(value = "format") String format){
 
         try {
+
             return imageService.getImage(inventoryNumber, region, size, rotation, quality, format).get();
-        }
-        catch (BadRequestException e) {
-            return e.sendResponse();
+
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    @GetMapping("/image/{inventoryNumber}/info.json")
+    @GetMapping("/{inventoryNumber}/info.json")
     public ResponseEntity<?> getImageInfo(@PathVariable(value = "inventoryNumber") String inventoryNumber) {
 
         try {
@@ -51,6 +52,17 @@ public class ImageController {
         catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ModelAndView handleError(HttpServletRequest req, ResponseStatusException e) {
+        ModelAndView mav = new ModelAndView();
+        mav.setStatus(e.getStatusCode());
+        mav.addObject("status", e.getStatusCode().value());
+        mav.addObject("message", e.getReason());
+        mav.addObject("path", req.getRequestURL());
+        mav.setViewName("error");
+        return mav;
     }
 
 }

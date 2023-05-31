@@ -1,0 +1,20 @@
+.header{
+    width: 100%;
+}
+
+.logo{
+    width: 50%;
+    float: left;
+    justify-content: center;
+}
+
+.title{
+    width: 50%;
+    float: right;
+    font-size: larger;
+}
+
+.content{
+    padding-top: 6%;
+    padding-left :6%
+}
