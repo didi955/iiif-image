@@ -1,6 +1,6 @@
-package fr.didi955.iiifimageapi.image.factory;
+package fr.didi955.iiifimage.image.factory;
 
-import fr.didi955.iiifimageapi.exception.BadRequestException;
+import fr.didi955.iiifimage.exception.BadRequestException;
 
 import java.awt.*;
 import java.awt.color.ColorSpace;

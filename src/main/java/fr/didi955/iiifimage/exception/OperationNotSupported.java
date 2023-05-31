@@ -1,4 +1,4 @@
-package fr.didi955.iiifimageapi.exception;
+package fr.didi955.iiifimage.exception;
 
 public class OperationNotSupported extends RuntimeException {
 
@@ -7,5 +7,10 @@ public class OperationNotSupported extends RuntimeException {
     public OperationNotSupported(String message) {
         super(message);
         this.message = message;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

@@ -1,4 +1,4 @@
-package fr.didi955.iiifimageapi.image.entity;
+package fr.didi955.iiifimage.image.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,7 +27,7 @@ public class ImageInfo {
 
     @JsonProperty("@id")
     public String getId() {
-        return "http:// + localhost:8080/iiif/image/" + image.getInventoryNumber();
+        return "http:// + localhost:8080/iiif/image/" + image.inventoryNumber();
     }
 
     @JsonProperty("@type")
@@ -47,22 +47,22 @@ public class ImageInfo {
 
     @JsonProperty("width")
     public int getWidth() {
-        return image.getWidth();
+        return image.width();
     }
 
     @JsonProperty("height")
     public int getHeight() {
-        return image.getHeight();
+        return image.height();
     }
 
     @JsonProperty("maxWidth")
     public int getMaxWidth() {
-        return image.getWidth();
+        return image.width();
     }
 
     @JsonProperty("maxHeight")
     public int getMaxHeight() {
-        return image.getHeight();
+        return image.height();
     }
 
     public Image getImage() {

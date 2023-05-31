@@ -1,4 +1,4 @@
-package fr.didi955.iiifimageapi;
+package fr.didi955.iiifimage;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

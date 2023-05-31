@@ -1,6 +1,6 @@
-package fr.didi955.iiifimageapi.image.utils;
+package fr.didi955.iiifimage.image.utils;
 
-import fr.didi955.iiifimageapi.exception.BadRequestException;
+import fr.didi955.iiifimage.exception.BadRequestException;
 import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.imaging.PixelDensity;
 import org.apache.commons.imaging.common.XmpImagingParameters;
@@ -41,7 +41,7 @@ public class ImageUtil {
             case "tif" -> {
                 params = new TiffImagingParameters();
                 ((TiffImagingParameters) params).setCompression(TiffConstants.TIFF_COMPRESSION_UNCOMPRESSED);
-                ((TiffImagingParameters) params).setPixelDensity(PixelDensity.createUnitless(300, 300)); // TODO: Make this generic
+                params.setPixelDensity(PixelDensity.createUnitless(300, 300)); // TODO: Make this generic
                 try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                     new TiffImageParser().writeImage(image, os, (TiffImagingParameters) params);
                     resource = createInputStreamResource(os.toByteArray());

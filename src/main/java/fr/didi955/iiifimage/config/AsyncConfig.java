@@ -1,4 +1,4 @@
-package fr.didi955.iiifimageapi.config;
+package fr.didi955.iiifimage.config;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;

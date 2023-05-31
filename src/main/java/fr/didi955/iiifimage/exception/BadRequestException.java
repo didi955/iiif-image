@@ -1,4 +1,4 @@
-package fr.didi955.iiifimageapi.exception;
+package fr.didi955.iiifimage.exception;
 
 public class BadRequestException extends RuntimeException {
 
@@ -9,5 +9,8 @@ public class BadRequestException extends RuntimeException {
         this.message = message;
     }
 
-
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

@@ -1,7 +1,7 @@
-package fr.didi955.iiifimageapi;
+package fr.didi955.iiifimage;
 
-import fr.didi955.iiifimageapi.image.entity.ImageInfo;
-import fr.didi955.iiifimageapi.image.service.ImageService;
+import fr.didi955.iiifimage.image.entity.ImageInfo;
+import fr.didi955.iiifimage.image.service.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,11 +1,11 @@
-package fr.didi955.iiifimageapi.image.service;
+package fr.didi955.iiifimage.image.service;
 
-import fr.didi955.iiifimageapi.image.builder.ImageBuilder;
-import fr.didi955.iiifimageapi.image.entity.Image;
-import fr.didi955.iiifimageapi.image.entity.ImageInfo;
-import fr.didi955.iiifimageapi.exception.BadRequestException;
-import fr.didi955.iiifimageapi.exception.OperationNotSupported;
-import fr.didi955.iiifimageapi.image.utils.ImageUtil;
+import fr.didi955.iiifimage.image.builder.ImageBuilder;
+import fr.didi955.iiifimage.image.entity.Image;
+import fr.didi955.iiifimage.image.entity.ImageInfo;
+import fr.didi955.iiifimage.exception.BadRequestException;
+import fr.didi955.iiifimage.exception.OperationNotSupported;
+import fr.didi955.iiifimage.image.utils.ImageUtil;
 import org.apache.commons.imaging.ImageWriteException;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;

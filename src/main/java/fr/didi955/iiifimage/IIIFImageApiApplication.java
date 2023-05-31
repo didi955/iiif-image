@@ -1,4 +1,4 @@
-package fr.didi955.iiifimageapi;
+package fr.didi955.iiifimage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

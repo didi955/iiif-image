@@ -1,10 +1,10 @@
-package fr.didi955.iiifimageapi.image.builder;
+package fr.didi955.iiifimage.image.builder;
 
-import fr.didi955.iiifimageapi.exception.BadRequestException;
-import fr.didi955.iiifimageapi.image.factory.QualityFactory;
-import fr.didi955.iiifimageapi.image.factory.RegionFactory;
-import fr.didi955.iiifimageapi.image.factory.RotationFactory;
-import fr.didi955.iiifimageapi.image.factory.SizeFactory;
+import fr.didi955.iiifimage.exception.BadRequestException;
+import fr.didi955.iiifimage.image.factory.QualityFactory;
+import fr.didi955.iiifimage.image.factory.RegionFactory;
+import fr.didi955.iiifimage.image.factory.RotationFactory;
+import fr.didi955.iiifimage.image.factory.SizeFactory;
 
 import java.awt.image.BufferedImage;
 
