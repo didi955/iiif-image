@@ -1,6 +1,8 @@
 package fr.didi955.iiifimage.image.utils;
 
 import fr.didi955.iiifimage.exception.BadRequestException;
+import fr.didi955.iiifimage.exception.OperationNotSupported;
+
 import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.imaging.PixelDensity;
 import org.apache.commons.imaging.common.XmpImagingParameters;
@@ -67,6 +69,7 @@ public class ImageUtil {
                     resource = createInputStreamResource(os.toByteArray());
                 }
             }
+            default -> throw new OperationNotSupported("Format " + format + " not supported");
         }
         return resource;
     }
@@ -76,7 +79,6 @@ public class ImageUtil {
         return new InputStreamResource(inputStream);
     }
 
-
     /**
      * Parse format to MediaType
      * @param format String : jpg, tif, png, gif according to <a href="https://iiif.io/api/image/3.0/#51-image-information-request">IIIF 3.0 specifications</a>
@@ -84,10 +86,10 @@ public class ImageUtil {
      */
     public static MediaType parseMediaType(String format) {
         return switch (format) {
-            case "jpg" -> MediaType.parseMediaType("image/jpeg");
+            case "jpg" -> MediaType.IMAGE_JPEG;
             case "tif" -> MediaType.parseMediaType("image/tiff");
-            case "png" -> MediaType.parseMediaType("image/png");
-            case "gif" -> MediaType.parseMediaType("image/gif");
+            case "png" -> MediaType.IMAGE_PNG;
+            case "gif" -> MediaType.IMAGE_GIF;
             default -> throw new BadRequestException("Format " + format + " not supported");
         };
     }
