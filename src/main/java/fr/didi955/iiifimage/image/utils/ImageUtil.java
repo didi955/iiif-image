@@ -2,6 +2,7 @@ package fr.didi955.iiifimage.image.utils;
 
 import fr.didi955.iiifimage.exception.BadRequestException;
 import fr.didi955.iiifimage.exception.OperationNotSupported;
+import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.imaging.PixelDensity;
 import org.apache.commons.imaging.common.XmpImagingParameters;
 import org.apache.commons.imaging.formats.gif.GifImageParser;
@@ -31,7 +32,7 @@ public class ImageUtil {
         return bytes;
     }
 
-    public static InputStreamResource imageToInputStreamResource(BufferedImage image, String format, int densityX, int densityY) throws Exception {
+    public static InputStreamResource imageToInputStreamResource(BufferedImage image, String format, int densityX, int densityY) throws IOException, ImageWriteException {
         XmpImagingParameters params;
         InputStreamResource resource;
 

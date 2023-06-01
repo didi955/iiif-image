@@ -24,7 +24,11 @@ public class RegionFactory {
             int y = regionValues[1];
             int width = regionValues[2];
             int height = regionValues[3];
-            return image.getSubimage(x, y, width, height);
+            try {
+                return image.getSubimage(x, y, width, height);
+            } catch (Exception e) {
+                throw new BadRequestException("The region is outside the raster, so the format is not valid");
+            }
         } else {
             throw new BadRequestException("Region format is not valid");
         }
@@ -62,16 +66,26 @@ public class RegionFactory {
 
     private void adjustRegionValues(String region, int[] regionValues) {
         if (region.startsWith("pct:")) {
-            int imageWidth = image.getWidth();
-            for (int i = 0; i < regionValues.length; i++) {
-                regionValues[i] = (int) (regionValues[i] * imageWidth / 100.0);
+            if(regionValues.length == 4){
+                double xPercentage = (double) regionValues[0] / 100;
+                double yPercentage = (double) regionValues[1] / 100;
+                double widthPercentage = (double) regionValues[2] / 100;
+                double heightPercentage = (double) regionValues[3] / 100;
+
+                regionValues[0] = (int) (xPercentage * image.getWidth());
+                regionValues[1] = (int) (yPercentage * image.getHeight());
+                regionValues[2] = (int) (widthPercentage * image.getWidth());
+                regionValues[3] = (int) (heightPercentage * image.getHeight());
+            }
+            else {
+                throw new BadRequestException("Region format is not valid");
             }
         }
     }
 
     private int[] parseRegionValues(String region) {
-        region = region.replace("pct:", "");
-        String[] regionSplit = region.split(",");
+        String str = region.replace("pct:", "");
+        String[] regionSplit = str.split(",");
         int[] regionValues = new int[4];
         for (int i = 0; i < regionValues.length; i++) {
             regionValues[i] = Integer.parseInt(regionSplit[i]);

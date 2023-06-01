@@ -3,6 +3,8 @@ package fr.didi955.iiifimage;
 import fr.didi955.iiifimage.image.entity.ImageInfo;
 import fr.didi955.iiifimage.image.service.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("/image")
 public class ImageController {
+
+    public static Logger LOGGER = LoggerFactory.getLogger(ImageController.class.getName());
 
     @Autowired
     private ImageService imageService;

@@ -1,13 +1,12 @@
 package fr.didi955.iiifimage.image.service;
 
+import fr.didi955.iiifimage.ImageController;
 import fr.didi955.iiifimage.exception.BadRequestException;
 import fr.didi955.iiifimage.exception.OperationNotSupported;
 import fr.didi955.iiifimage.image.builder.ImageBuilder;
 import fr.didi955.iiifimage.image.entity.Image;
 import fr.didi955.iiifimage.image.entity.ImageInfo;
 import fr.didi955.iiifimage.image.utils.ImageUtil;
-import org.apache.commons.imaging.ImageReadException;
-import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.imaging.Imaging;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -42,17 +41,13 @@ public class ImageService {
                     .contentType(ImageUtil.parseMediaType(format))
                     .body(inputStream);
         }
-        catch (IOException | ImageWriteException | ImageReadException e) {
-            System.out.println(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to read image");
-        }
         catch (BadRequestException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
         catch (OperationNotSupported e) {
             throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED, e.getMessage());
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            ImageController.LOGGER.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to read image");
         }
     }
@@ -73,6 +68,7 @@ public class ImageService {
             return new ImageInfo(image);
         }
         catch (IOException e) {
+            ImageController.LOGGER.error(e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to read image");
         }
         catch (BadRequestException e) {

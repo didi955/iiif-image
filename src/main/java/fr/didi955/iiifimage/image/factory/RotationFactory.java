@@ -46,7 +46,9 @@ public class RotationFactory {
         int newWidth = (int) Math.floor(width * cos + height * sin);
         int newHeight = (int) Math.floor(height * cos + width * sin);
 
-        BufferedImage rotatedImage = new BufferedImage(newWidth, newHeight, image.getType());
+        int type = this.image.getType() == 0 ? BufferedImage.TYPE_3BYTE_BGR : this.image.getType();
+
+        BufferedImage rotatedImage = new BufferedImage(newWidth, newHeight, type);
         Graphics2D g = rotatedImage.createGraphics();
         AffineTransform at = new AffineTransform();
         at.translate((double) (newWidth - width) / 2, (double) (newHeight - height) / 2);
