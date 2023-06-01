@@ -35,15 +35,15 @@ public class ImageUtil {
         return bytes;
     }
 
-    public static InputStreamResource imageToInputStreamResource(BufferedImage image, String format) throws ImageWriteException, IOException {
+    public static InputStreamResource imageToInputStreamResource(BufferedImage image, String format, int densityX, int densityY) throws ImageWriteException, IOException {
         XmpImagingParameters params;
-        InputStreamResource resource = null;
+        InputStreamResource resource;
 
         switch (format) {
             case "tif" -> {
                 params = new TiffImagingParameters();
                 ((TiffImagingParameters) params).setCompression(TiffConstants.TIFF_COMPRESSION_UNCOMPRESSED);
-                params.setPixelDensity(PixelDensity.createUnitless(300, 300)); // TODO: Make this generic
+                params.setPixelDensity(PixelDensity.createUnitless(densityX, densityY));
                 try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                     new TiffImageParser().writeImage(image, os, (TiffImagingParameters) params);
                     resource = createInputStreamResource(os.toByteArray());
@@ -51,6 +51,7 @@ public class ImageUtil {
             }
             case "jpg" -> {
                 params = new JpegImagingParameters();
+                params.setPixelDensity(PixelDensity.createUnitless(densityX, densityY));
                 try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                     new JpegImageParser().writeImage(image, os, (JpegImagingParameters) params);
                     resource = createInputStreamResource(os.toByteArray());
@@ -58,14 +59,17 @@ public class ImageUtil {
             }
             case "png" -> {
                 params = new PngImagingParameters();
+                params.setPixelDensity(PixelDensity.createUnitless(densityX, densityY));
                 try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                     new PngImageParser().writeImage(image, os, (PngImagingParameters) params);
                     resource = createInputStreamResource(os.toByteArray());
                 }
             }
             case "gif" -> {
+                params = new GifImagingParameters();
+                params.setPixelDensity(PixelDensity.createUnitless(72, 72));
                 try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-                    new GifImageParser().writeImage(image, os, new GifImagingParameters());
+                    new GifImageParser().writeImage(image, os, (GifImagingParameters) params);
                     resource = createInputStreamResource(os.toByteArray());
                 }
             }

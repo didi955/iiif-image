@@ -1,12 +1,14 @@
 package fr.didi955.iiifimage.image.service;
 
+import fr.didi955.iiifimage.exception.BadRequestException;
+import fr.didi955.iiifimage.exception.OperationNotSupported;
 import fr.didi955.iiifimage.image.builder.ImageBuilder;
 import fr.didi955.iiifimage.image.entity.Image;
 import fr.didi955.iiifimage.image.entity.ImageInfo;
-import fr.didi955.iiifimage.exception.BadRequestException;
-import fr.didi955.iiifimage.exception.OperationNotSupported;
 import fr.didi955.iiifimage.image.utils.ImageUtil;
+import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.ImageWriteException;
+import org.apache.commons.imaging.Imaging;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,13 +39,14 @@ public class ImageService {
             ImageBuilder builder = new ImageBuilder(image);
             builder.region(region).size(size).rotate(rotation).size(size).quality(quality);
             BufferedImage result = builder.build();
-            InputStreamResource inputStream = ImageUtil.imageToInputStreamResource(result, format);
+            org.apache.commons.imaging.ImageInfo imageInfo = Imaging.getImageInfo(ImageUtil.imageToByteArray(result, format));
+            InputStreamResource inputStream = ImageUtil.imageToInputStreamResource(result, format, imageInfo.getPhysicalWidthDpi(), imageInfo.getPhysicalHeightDpi());
 
             return CompletableFuture.completedFuture(ResponseEntity.status(HttpStatus.OK)
                     .contentType(ImageUtil.parseMediaType(format))
                     .body(inputStream));
         }
-        catch (IOException | ImageWriteException e) {
+        catch (IOException | ImageWriteException | ImageReadException e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to read image");
         }
         catch (BadRequestException e) {
