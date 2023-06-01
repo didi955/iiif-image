@@ -2,14 +2,10 @@ package fr.didi955.iiifimage.image.utils;
 
 import fr.didi955.iiifimage.exception.BadRequestException;
 import fr.didi955.iiifimage.exception.OperationNotSupported;
-
-import org.apache.commons.imaging.ImageWriteException;
 import org.apache.commons.imaging.PixelDensity;
 import org.apache.commons.imaging.common.XmpImagingParameters;
 import org.apache.commons.imaging.formats.gif.GifImageParser;
 import org.apache.commons.imaging.formats.gif.GifImagingParameters;
-import org.apache.commons.imaging.formats.jpeg.JpegImageParser;
-import org.apache.commons.imaging.formats.jpeg.JpegImagingParameters;
 import org.apache.commons.imaging.formats.png.PngImageParser;
 import org.apache.commons.imaging.formats.png.PngImagingParameters;
 import org.apache.commons.imaging.formats.tiff.TiffImageParser;
@@ -35,7 +31,7 @@ public class ImageUtil {
         return bytes;
     }
 
-    public static InputStreamResource imageToInputStreamResource(BufferedImage image, String format, int densityX, int densityY) throws ImageWriteException, IOException {
+    public static InputStreamResource imageToInputStreamResource(BufferedImage image, String format, int densityX, int densityY) throws Exception {
         XmpImagingParameters params;
         InputStreamResource resource;
 
@@ -50,11 +46,11 @@ public class ImageUtil {
                 }
             }
             case "jpg" -> {
-                params = new JpegImagingParameters();
-                params.setPixelDensity(PixelDensity.createUnitless(densityX, densityY));
                 try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-                    new JpegImageParser().writeImage(image, os, (JpegImagingParameters) params);
+                    ImageIO.setUseCache(false);
+                    ImageIO.write(image, "jpg", os);
                     resource = createInputStreamResource(os.toByteArray());
+
                 }
             }
             case "png" -> {

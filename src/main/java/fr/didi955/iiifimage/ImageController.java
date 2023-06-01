@@ -7,15 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.concurrent.ExecutionException;
-
 @RestController
-@EnableAsync
 @RequestMapping("/image")
 public class ImageController {
 
@@ -30,28 +26,17 @@ public class ImageController {
                                                                                          @PathVariable(value = "quality") String quality,
                                                                                          @PathVariable(value = "format") String format){
 
-        try {
-
-            return imageService.getImage(inventoryNumber, region, size, rotation, quality, format).get();
-
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        return imageService.getImage(inventoryNumber, region, size, rotation, quality, format);
     }
 
     @GetMapping("/{inventoryNumber}/info.json")
     public ResponseEntity<?> getImageInfo(@PathVariable(value = "inventoryNumber") String inventoryNumber) {
 
-        try {
-            ImageInfo imageInfo = imageService.getImageInfo(inventoryNumber).get();
+        ImageInfo imageInfo = imageService.getImageInfo(inventoryNumber);
 
-            return ResponseEntity.status(HttpStatus.OK)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .body(imageInfo);
-        }
-        catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(imageInfo);
     }
 
     @ExceptionHandler(ResponseStatusException.class)
