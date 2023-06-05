@@ -23,6 +23,31 @@ import java.io.IOException;
 
 public class ImageUtil {
 
+    public static BufferedImage normalize(BufferedImage image){
+        // Convert all negative image bytes to positive
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        int[] signedPixels = image.getRGB(0, 0, width, height, null, 0, width);
+
+        // signed bytes to unsigned bytes
+        int[] unsignedPixels = new int[signedPixels.length];
+        for (int i = 0; i < signedPixels.length; i++) {
+            int alpha = (signedPixels[i] >> 24) & 0xFF;
+            int red = (signedPixels[i] >> 16) & 0xFF;
+            int green = (signedPixels[i] >> 8) & 0xFF;
+            int blue = signedPixels[i] & 0xFF;
+
+            unsignedPixels[i] = (alpha << 24) | (red << 16) | (green << 8) | blue;
+        }
+
+        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        image.setRGB(0, 0, width, height, unsignedPixels, 0, width);
+
+        return image;
+
+    }
 
     public static byte[] imageToByteArray(BufferedImage image, String format) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();

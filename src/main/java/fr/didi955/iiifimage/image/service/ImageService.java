@@ -34,6 +34,7 @@ public class ImageService {
             ImageBuilder builder = new ImageBuilder(image);
             builder.region(region).size(size).rotate(rotation).size(size).quality(quality);
             BufferedImage result = builder.build();
+            result = ImageUtil.normalize(result);
             org.apache.commons.imaging.ImageInfo imageInfo = Imaging.getImageInfo(ImageUtil.imageToByteArray(result, format));
             InputStreamResource inputStream = ImageUtil.imageToInputStreamResource(result, format, imageInfo.getPhysicalWidthDpi(), imageInfo.getPhysicalHeightDpi());
 
