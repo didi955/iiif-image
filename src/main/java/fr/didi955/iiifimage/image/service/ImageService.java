@@ -1,6 +1,6 @@
 package fr.didi955.iiifimage.image.service;
 
-import fr.didi955.iiifimage.ImageController;
+import fr.didi955.iiifimage.image.ImageController;
 import fr.didi955.iiifimage.exception.BadRequestException;
 import fr.didi955.iiifimage.exception.OperationNotSupported;
 import fr.didi955.iiifimage.image.builder.ImageBuilder;
