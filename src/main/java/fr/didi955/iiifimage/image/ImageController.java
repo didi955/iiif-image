@@ -1,4 +1,4 @@
-package fr.didi955.iiifimage;
+package fr.didi955.iiifimage.image;
 
 import fr.didi955.iiifimage.image.entity.ImageInfo;
 import fr.didi955.iiifimage.image.service.ImageService;

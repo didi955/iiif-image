@@ -5,6 +5,7 @@ import fr.didi955.iiifimage.image.factory.QualityFactory;
 import fr.didi955.iiifimage.image.factory.RegionFactory;
 import fr.didi955.iiifimage.image.factory.RotationFactory;
 import fr.didi955.iiifimage.image.factory.SizeFactory;
+import fr.didi955.iiifimage.image.utils.ImageUtil;
 
 import java.awt.image.BufferedImage;
 
@@ -13,12 +14,12 @@ public class ImageBuilder {
     private BufferedImage image;
 
     public ImageBuilder(BufferedImage image) {
-        this.image = image;
+        this.image = ImageUtil.normalize(image);
     }
 
-    public ImageBuilder rotate(String rotation) throws BadRequestException {
-        RotationFactory factory = new RotationFactory(this.image);
-        this.image = factory.getRotatedImage(rotation);
+    public ImageBuilder region(String region) throws BadRequestException {
+        RegionFactory factory = new RegionFactory(this.image);
+        this.image = factory.getRegionImage(region);
         return this;
     }
 
@@ -28,21 +29,19 @@ public class ImageBuilder {
         return this;
     }
 
-    public ImageBuilder region(String region) throws BadRequestException {
-        RegionFactory factory = new RegionFactory(this.image);
-        this.image = factory.getRegionImage(region);
+    public ImageBuilder rotate(String rotation) throws BadRequestException {
+        RotationFactory factory = new RotationFactory(this.image);
+        this.image = factory.getRotatedImage(rotation);
         return this;
     }
 
-    public ImageBuilder quality(String quality) throws BadRequestException {
+    public void quality(String quality) throws BadRequestException {
         QualityFactory factory = new QualityFactory(this.image);
         this.image = factory.getQualityImage(quality);
-        return this;
     }
 
     public BufferedImage build() {
         return this.image;
     }
-
 
 }
