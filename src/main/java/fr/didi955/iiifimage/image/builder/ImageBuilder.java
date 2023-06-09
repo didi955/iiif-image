@@ -17,29 +17,45 @@ public class ImageBuilder {
         this.image = ImageUtil.normalize(image);
     }
 
+    /*
+    * @param region
+     */
     public ImageBuilder region(String region) throws BadRequestException {
         RegionFactory factory = new RegionFactory(this.image);
         this.image = factory.getRegionImage(region);
         return this;
     }
 
+    /*
+    * @param size
+     */
     public ImageBuilder size(String size) throws Exception {
         SizeFactory factory = new SizeFactory(this.image);
         this.image = factory.getSizedImage(size);
         return this;
     }
 
+    /*
+    * @param rotation
+     */
     public ImageBuilder rotate(String rotation) throws BadRequestException {
         RotationFactory factory = new RotationFactory(this.image);
         this.image = factory.getRotatedImage(rotation);
         return this;
     }
 
+    /*
+    * @param quality
+     */
     public void quality(String quality) throws BadRequestException {
         QualityFactory factory = new QualityFactory(this.image);
         this.image = factory.getQualityImage(quality);
     }
 
+    /*
+    * Get the built image
+    * @return BufferedImage
+     */
     public BufferedImage build() {
         return this.image;
     }

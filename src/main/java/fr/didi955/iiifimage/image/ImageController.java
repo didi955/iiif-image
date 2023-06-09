@@ -22,6 +22,18 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+    /*
+    * Get image endpoint from inventory number and IIIF Image 3.0 specifications
+    *
+    * @param inventoryNumber
+    * @param region
+    * @param size
+    * @param rotation
+    * @param quality
+    * @param format
+    *
+    * @return Image as InputStreamResource
+     */
     @GetMapping("/{id}/{region}/{size}/{rotation}/{quality}.{format}")
     public @ResponseBody ResponseEntity<?> getImage(@PathVariable(value = "id") String inventoryNumber,
                                                                                          @PathVariable(value = "region") String region,
@@ -33,6 +45,13 @@ public class ImageController {
         return imageService.getImage(inventoryNumber, region, size, rotation, quality, format);
     }
 
+    /*
+    * Get image info endpoint from inventory number
+    *
+    * @param inventoryNumber
+    *
+    * @return ImageInfo
+     */
     @GetMapping("/{inventoryNumber}/info.json")
     public ResponseEntity<?> getImageInfo(@PathVariable(value = "inventoryNumber") String inventoryNumber) {
 
@@ -43,6 +62,14 @@ public class ImageController {
                 .body(imageInfo);
     }
 
+    /*
+    * Custom error handler
+    *
+    * @param req
+    * @param e
+    *
+    * @return ModelAndView with error page and response code
+     */
     @ExceptionHandler(ResponseStatusException.class)
     public ModelAndView handleError(HttpServletRequest req, ResponseStatusException e) {
         ModelAndView mav = new ModelAndView();

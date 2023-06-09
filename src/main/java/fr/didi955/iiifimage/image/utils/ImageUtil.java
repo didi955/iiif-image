@@ -23,6 +23,12 @@ import java.io.IOException;
 
 public class ImageUtil {
 
+    /*
+    * Normalize image to avoid negative bytes
+    *
+    * @param image BufferedImage
+    * @return BufferedImage
+     */
     public static BufferedImage normalize(BufferedImage image){
         // Convert all negative image bytes to positive
         int width = image.getWidth();
@@ -49,6 +55,13 @@ public class ImageUtil {
 
     }
 
+    /*
+    * Convert BufferedImage to byte array
+    *
+    * @param image BufferedImage
+    * @param format String : jpg, tif, png, gif according to <a href="https://iiif.io/api/image/3.0/#51-image-information-request">IIIF 3.0 specifications</a>
+    * @return byte[]
+     */
     public static byte[] imageToByteArray(BufferedImage image, String format) throws IOException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ImageIO.write(image, format, os);
@@ -57,6 +70,15 @@ public class ImageUtil {
         return bytes;
     }
 
+    /*
+    * Convert BufferedImage to InputStreamResource according to export format and density
+    *
+    * @param image BufferedImage
+    * @param format String : jpg, tif, png, gif according to <a href="https://iiif.io/api/image/3.0/#51-image-information-request">IIIF 3.0 specifications</a>
+    * @param densityX int : density in X axis
+    * @param densityY int : density in Y axis
+    * @return InputStreamResource
+     */
     public static InputStreamResource imageToInputStreamResource(BufferedImage image, String format, int densityX, int densityY) throws IOException, ImageWriteException {
         XmpImagingParameters params;
         InputStreamResource resource;
@@ -101,6 +123,12 @@ public class ImageUtil {
         return resource;
     }
 
+    /*
+    * Create InputStreamResource from byte array
+    *
+    * @param byteArray byte[]
+    * @return InputStreamResource
+     */
     private static InputStreamResource createInputStreamResource(byte[] byteArray) {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
         return new InputStreamResource(inputStream);
