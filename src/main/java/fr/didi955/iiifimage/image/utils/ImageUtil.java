@@ -95,6 +95,7 @@ public class ImageUtil {
                     resource = createInputStreamResource(os.toByteArray());
                 }
             }
+            case "jp2" -> throw new OperationNotSupported("Format " + format + " will be soon supported");
             default -> throw new OperationNotSupported("Format " + format + " not supported");
         }
         return resource;

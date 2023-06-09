@@ -23,7 +23,7 @@ public class ImageBuilder {
         return this;
     }
 
-    public ImageBuilder size(String size) throws BadRequestException {
+    public ImageBuilder size(String size) throws Exception {
         SizeFactory factory = new SizeFactory(this.image);
         this.image = factory.getSizedImage(size);
         return this;

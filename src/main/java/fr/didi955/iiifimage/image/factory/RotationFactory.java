@@ -72,7 +72,7 @@ public class RotationFactory {
      * @param rotation String : rotation parameter of IIIF request (ex: 0) or (90) or (270) or (!90) or (!180) see <a href="https://iiif.io/api/image/3.0/#43-rotation">IIIF 3.0 specifications</a>
      * @return boolean true if rotation is valid, false otherwise
      */
-    private boolean isRotationValid(String rotation) {
+    public static boolean isRotationValid(String rotation) {
         return rotation.matches("^!?[0-9]+(\\.[0-9]+)?$");
     }
 

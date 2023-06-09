@@ -49,7 +49,7 @@ public class ImageService {
             throw new ResponseStatusException(HttpStatus.NOT_IMPLEMENTED, e.getMessage());
         } catch (Exception e) {
             ImageController.LOGGER.error(e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to read image");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to process image");
         }
     }
 

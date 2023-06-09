@@ -18,7 +18,7 @@ public class QualityFactory {
 
     public BufferedImage getQualityImage(String quality) throws BadRequestException {
 
-        if(quality.equals("default")) {
+        if(quality.equalsIgnoreCase("default")) {
             return this.image;
         }
         else if(isQualityValid(quality)) {
@@ -33,7 +33,7 @@ public class QualityFactory {
 
     private BufferedImage processQuality(String quality) throws BadRequestException {
         return switch (quality) {
-            case "color" -> this.image;
+            case "color" -> color();
             case "gray" -> gray();
             case "bitonal" -> bitonal();
             default -> throw new BadRequestException("Quality format is not valid");
@@ -46,6 +46,14 @@ public class QualityFactory {
          g2d.drawImage(this.image, 0, 0, null);
          g2d.dispose();
          return grayscaleImage;
+     }
+
+     private BufferedImage color(){
+         BufferedImage colorImage = new BufferedImage(this.image.getWidth(), this.image.getHeight(), BufferedImage.TYPE_INT_RGB);
+         Graphics2D g2d = colorImage.createGraphics();
+         g2d.drawImage(this.image, 0, 0, null);
+         g2d.dispose();
+         return colorImage;
      }
 
      private BufferedImage bitonal(){
