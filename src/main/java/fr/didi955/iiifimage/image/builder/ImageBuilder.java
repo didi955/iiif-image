@@ -12,8 +12,12 @@ import java.awt.image.BufferedImage;
 public class ImageBuilder {
 
     private BufferedImage image;
+    private final int originalWidth;
+    private final int originalHeight;
 
     public ImageBuilder(BufferedImage image) {
+        this.originalWidth = image.getWidth();
+        this.originalHeight = image.getHeight();
         this.image = ImageUtil.normalize(image);
     }
 
@@ -30,7 +34,7 @@ public class ImageBuilder {
     * @param size
      */
     public ImageBuilder size(String size) throws Exception {
-        SizeFactory factory = new SizeFactory(this.image);
+        SizeFactory factory = new SizeFactory(this, this.image);
         this.image = factory.getSizedImage(size);
         return this;
     }
@@ -60,4 +64,11 @@ public class ImageBuilder {
         return this.image;
     }
 
+    public int getOriginalHeight() {
+        return originalHeight;
+    }
+
+    public int getOriginalWidth() {
+        return originalWidth;
+    }
 }

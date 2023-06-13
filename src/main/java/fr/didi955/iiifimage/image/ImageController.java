@@ -9,11 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import java.util.Arrays;
 
 @RestController
+@RestControllerAdvice
 @RequestMapping("/image")
 public class ImageController {
 
@@ -76,6 +81,28 @@ public class ImageController {
         mav.setStatus(e.getStatusCode());
         mav.addObject("status", e.getStatusCode().value());
         mav.addObject("message", e.getReason());
+        mav.addObject("path", req.getRequestURL());
+        mav.setViewName("error");
+        return mav;
+    }
+
+    @ExceptionHandler(MissingPathVariableException.class)
+    public ModelAndView handleError400(HttpServletRequest req, MissingPathVariableException e) {
+        ModelAndView mav = new ModelAndView();
+        mav.setStatus(HttpStatus.BAD_REQUEST);
+        mav.addObject("status", HttpStatus.BAD_REQUEST.value());
+        mav.addObject("message", "Missing path variable: " + e.getVariableName());
+        mav.addObject("path", req.getRequestURL());
+        mav.setViewName("error");
+        return mav;
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ModelAndView handleError404(HttpServletRequest req, NoHandlerFoundException e) {
+        ModelAndView mav = new ModelAndView();
+        mav.setStatus(e.getStatusCode());
+        mav.addObject("status", e.getStatusCode().value());
+        mav.addObject("message", "Invalid URL");
         mav.addObject("path", req.getRequestURL());
         mav.setViewName("error");
         return mav;

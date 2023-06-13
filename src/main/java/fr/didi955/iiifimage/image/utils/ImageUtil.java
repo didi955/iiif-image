@@ -86,7 +86,7 @@ public class ImageUtil {
         switch (format) {
             case "tif" -> {
                 params = new TiffImagingParameters();
-                ((TiffImagingParameters) params).setCompression(TiffConstants.TIFF_COMPRESSION_UNCOMPRESSED);
+                ((TiffImagingParameters) params).setCompression(TiffConstants.TIFF_COMPRESSION_LZW);
                 params.setPixelDensity(PixelDensity.createUnitless(densityX, densityY));
                 try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
                     new TiffImageParser().writeImage(image, os, (TiffImagingParameters) params);
@@ -117,7 +117,6 @@ public class ImageUtil {
                     resource = createInputStreamResource(os.toByteArray());
                 }
             }
-            case "jp2" -> throw new OperationNotSupported("Format " + format + " will be soon supported");
             default -> throw new OperationNotSupported("Format " + format + " not supported");
         }
         return resource;
