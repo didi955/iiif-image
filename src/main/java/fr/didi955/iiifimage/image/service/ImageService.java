@@ -6,8 +6,11 @@ import fr.didi955.iiifimage.exception.OperationNotSupported;
 import fr.didi955.iiifimage.image.builder.ImageBuilder;
 import fr.didi955.iiifimage.image.entity.Image;
 import fr.didi955.iiifimage.image.entity.ImageInfo;
+import fr.didi955.iiifimage.image.helpers.ImageHelper;
 import fr.didi955.iiifimage.image.utils.ImageUtil;
 import org.apache.commons.imaging.Imaging;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +27,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Service
 public class ImageService {
 
+    @Value("${image.path}")
+    private String imagePath;
+
     public ResponseEntity<InputStreamResource> getImage(String inventoryNumber, String region, String size, String rotation, String quality, String format) throws ResponseStatusException {
-        URL ressourceUrl = getClass().getResource("/images/" + inventoryNumber.replace(".", "_") + ".tif");
-        if(ressourceUrl == null) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
-        }
         try {
-            BufferedImage image = ImageIO.read(ressourceUrl);
+            BufferedImage image = ImageHelper.fetchImage(inventoryNumber, imagePath);
             ImageBuilder builder = new ImageBuilder(image);
             builder.region(region).size(size).rotate(rotation).size(size).quality(quality);
             BufferedImage result = builder.build();
@@ -55,22 +57,10 @@ public class ImageService {
 
     public ImageInfo getImageInfo(String inventoryNumber) throws ResponseStatusException {
 
-        // TODO: Make format file generic
-
-        String url = "/images/" + inventoryNumber.replace(".", "_") + ".tif";
-
-        URL resourceUrl = getClass().getResource(url.toLowerCase());
-        if(resourceUrl == null) {
-            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
-        }
         try {
-            BufferedImage resource = ImageIO.read(resourceUrl);
+            BufferedImage resource = ImageHelper.fetchImage(inventoryNumber, imagePath);
             Image image = new Image(inventoryNumber, resource.getWidth(), resource.getHeight(), "tiff");
             return new ImageInfo(image);
-        }
-        catch (IOException e) {
-            ImageController.LOGGER.error(e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unable to read image");
         }
         catch (BadRequestException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

@@ -98,7 +98,6 @@ public class ImageUtil {
                     ImageIO.setUseCache(false);
                     ImageIO.write(image, "jpg", os);
                     resource = createInputStreamResource(os.toByteArray());
-
                 }
             }
             case "png" -> {

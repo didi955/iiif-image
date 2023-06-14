@@ -15,8 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.util.Arrays;
-
 @RestController
 @RestControllerAdvice
 @RequestMapping("/image")
