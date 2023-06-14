@@ -18,7 +18,6 @@ public class ImageHelper {
     public static BufferedImage fetchImage(String inventoryNumber, String imagePath) throws ResponseStatusException {
         // TODO: NEED TO BE GENERIC
         Path path = Paths.get( imagePath + inventoryNumber.replace(".", "_") + ".tif");
-        ImageController.LOGGER.error(path.toString());
         if (Files.exists(path) && !Files.isDirectory(path)){
             try {
                 return ImageIO.read(path.toFile());
