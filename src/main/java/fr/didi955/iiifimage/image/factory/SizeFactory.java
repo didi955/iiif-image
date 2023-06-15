@@ -40,6 +40,7 @@ public class SizeFactory {
         }
         else if(isScaledWidthUpscale(size)){
             int width = extractWidth(size);
+            preventTooLargeDimensions(width, 0);
             return scale(width, null, true);
         }
         else if(isScaledHeight(size)){
