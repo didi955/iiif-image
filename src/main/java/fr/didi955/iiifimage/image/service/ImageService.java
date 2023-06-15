@@ -27,6 +27,18 @@ public class ImageService {
     @Value("${image.path}")
     private String imagePath;
 
+    /*
+    * Logic to fetch and retrieve the image according to the parameters given
+    *
+    * @param inventoryNumber
+    * @param region
+    * @param size
+    * @param rotation
+    * @param quality
+    * @param format
+    *
+    * @return ResponseEntity<InputStreamResource> Image that can be displayed or downloaded by the client
+     */
     public ResponseEntity<InputStreamResource> getImage(String inventoryNumber, String region, String size, String rotation, String quality, String format) throws ResponseStatusException {
         try {
             BufferedImage image = ImageHelper.fetchImage(inventoryNumber, imagePath);
@@ -56,6 +68,13 @@ public class ImageService {
         }
     }
 
+    /*
+    * Logic to fetch and retrieve the image information according to the parameters given and the IIIF 3.0 specifications
+    *
+    * @param inventoryNumber
+    *
+    * @return ImageInfo json representation of the image's information
+     */
     public ImageInfo getImageInfo(String inventoryNumber) throws ResponseStatusException {
 
         try {
