@@ -28,7 +28,7 @@ public class QualityFactory {
     }
 
     private boolean isQualityValid(String quality) {
-        return quality.equals("color") || quality.equals("gray") || quality.equals("bitonal");
+        return quality.equals("color") || quality.equals("gray") || quality.equals("bitonal") || quality.equals("default");
     }
 
     private BufferedImage processQuality(String quality) throws BadRequestException {

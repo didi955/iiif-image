@@ -1,9 +1,7 @@
 package fr.didi955.iiifimage.image.factory;
 
 import fr.didi955.iiifimage.exception.BadRequestException;
-import fr.didi955.iiifimage.image.ImageController;
 import fr.didi955.iiifimage.image.builder.ImageBuilder;
-import fr.didi955.iiifimage.image.entity.ImageInfo;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -53,6 +51,7 @@ public class SizeFactory {
         }
         else if(isScaledHeightUpscale(size)){
             int height = extractHeight(size);
+            preventTooLargeDimensions(0, height);
             return scale(null, height, true);
         }
         else if(isScaledPercentage(size)){
@@ -68,6 +67,7 @@ public class SizeFactory {
             int percentage = extractPercentage(size);
             int width = this.image.getWidth() * (percentage / 100);
             int height = this.image.getHeight() * (percentage / 100);
+            preventTooLargeDimensions(width, height);
             return scale(width, height);
         }
         else if(isExactWidthHeight(size)){
@@ -82,6 +82,7 @@ public class SizeFactory {
             int[] sizes = extractWidthHeight(size);
             int width = sizes[0];
             int height = sizes[1];
+            preventTooLargeDimensions(width, height);
             return scale(width, height);
         }
         else if(isScaledWidthHeight(size)){
@@ -93,6 +94,7 @@ public class SizeFactory {
             int[] sizes = extractWidthHeight(size);
             int width = sizes[0];
             int height = sizes[1];
+            preventTooLargeDimensions(width, height);
             return scaleRatio(width, height);
         }
 
@@ -202,14 +204,14 @@ public class SizeFactory {
     * @return An array containing the width and height
     * @throws BadRequestException If the width and height cannot be extracted
      */
-    private int extractWidth(String size) throws BadRequestException {
+    private int extractWidth(String size) throws Exception {
         String[] split = size.split(",");
         Pattern pattern = Pattern.compile("([0-9]+)");
         Matcher matcher = pattern.matcher(split[0]);
-        if(matcher.matches()){
+        if(matcher.find()){
             return parseInteger(matcher.group(1));
         }
-        throw new BadRequestException("Failed to extract width from size: " + size);
+        throw new Exception("Failed to extract width from size: " + size);
     }
 
     /*
@@ -219,14 +221,14 @@ public class SizeFactory {
     * @return The height
     * @throws BadRequestException If the height cannot be extracted
      */
-    private int extractHeight(String size) throws BadRequestException {
+    private int extractHeight(String size) throws Exception {
         String[] split = size.split(",");
         Pattern pattern = Pattern.compile("([0-9]+)");
         Matcher matcher = pattern.matcher(split[1]);
-        if(matcher.matches()){
+        if(matcher.find()){
             return parseInteger(matcher.group(1));
         }
-        throw new BadRequestException("Failed to extract height from size: " + size);
+        throw new Exception("Failed to extract height from size: " + size);
     }
 
     /*
@@ -236,17 +238,15 @@ public class SizeFactory {
     * @return An array containing the width and height
     * @throws BadRequestException If the width and height cannot be extracted
      */
-    private int[] extractWidthHeight(String size) throws BadRequestException {
+    private int[] extractWidthHeight(String size) throws Exception {
         Pattern pattern = Pattern.compile("([0-9]+),([0-9]+)");
         Matcher matcher = pattern.matcher(size);
         if(matcher.find()){
-            ImageController.LOGGER.info("Width: " + matcher.group(1));
             int width = parseInteger(matcher.group(1));
             int height = parseInteger(matcher.group(2));
             return new int[]{width, height};
         }
-        ImageController.LOGGER.info("Failed to extract width and height from size: " + size);
-        throw new BadRequestException("Failed to extract width from size: " + size);
+        throw new Exception("Failed to extract width and height from size: " + size);
     }
 
     /*
@@ -263,11 +263,13 @@ public class SizeFactory {
     * @return The parsed integer
     * @throws BadRequestException If the string could not be parsed
      */
-    private int parseInteger(String s) throws BadRequestException {
-        try {
-            return Integer.parseInt(s);
-        } catch (NumberFormatException e) {
-            throw new BadRequestException("Failed to parse integer: " + s);
+    private int parseInteger(String s) throws NumberFormatException {
+        return Integer.parseInt(s);
+    }
+
+    private void preventTooLargeDimensions(int width, int height) throws Exception {
+        if (width > 10000 || height > 10000) {
+            throw new Exception("Width and height cannot be larger than 10000");
         }
     }
 }

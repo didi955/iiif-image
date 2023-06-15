@@ -58,16 +58,27 @@ public class ImageBuilder {
 
     /*
     * Get the built image
+hot fixe    *
     * @return BufferedImage
      */
     public BufferedImage build() {
         return this.image;
     }
 
+    /*
+    * Get the original image height
+    *
+    * @return int originalHeight
+     */
     public int getOriginalHeight() {
         return originalHeight;
     }
 
+    /*
+    * Get the original image width
+    *
+    * @return int originalWidth
+     */
     public int getOriginalWidth() {
         return originalWidth;
     }
