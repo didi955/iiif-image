@@ -49,7 +49,7 @@ public class RegionFactory {
         return image.getSubimage(x, y, width, height);
     }
 
-    private boolean isRegionValid(String region) {
+    public boolean isRegionValid(String region) {
         String regex = "^(pct:)?[0-9]+(\\.[0-9]+)?,[0-9]+(\\.[0-9]+)?,[0-9]+(\\.[0-9]+)?,[0-9]+(\\.[0-9]+)?$";
         return region.equals("full") || region.equals("square") || (region.matches(regex) && isWithinImageBounds(region));
     }

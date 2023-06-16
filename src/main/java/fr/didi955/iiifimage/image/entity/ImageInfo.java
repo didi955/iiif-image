@@ -28,6 +28,7 @@ public class ImageInfo {
     // TODO: Make this generic
     @JsonProperty("@id")
     public String getId() {
+        // TODO: Make this generic
         return "http://localhost:8080/iiif/image/" + image.inventoryNumber();
     }
 
