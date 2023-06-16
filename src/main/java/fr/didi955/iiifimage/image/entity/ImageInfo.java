@@ -2,6 +2,10 @@ package fr.didi955.iiifimage.image.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class ImageInfo {
 
@@ -11,13 +15,17 @@ public class ImageInfo {
     public static final String PROFILE = "level2";
 
     @JsonIgnore
-    private Image image;
+    private final Image image;
 
-    public ImageInfo() {
-    }
+    @JsonIgnore
+    private HttpServletRequest request = null;
 
     public ImageInfo(Image image) {
         this.image = image;
+        RequestAttributes attrs = RequestContextHolder.getRequestAttributes();
+        if (attrs instanceof ServletRequestAttributes) {
+            this.request = ((ServletRequestAttributes) attrs).getRequest();
+        }
     }
 
     @JsonProperty("@context")
@@ -25,11 +33,14 @@ public class ImageInfo {
         return CONTEXT;
     }
 
-    // TODO: Make this generic
     @JsonProperty("@id")
     public String getId() {
-        // TODO: Make this generic
-        return "http://localhost:8080/iiif/image/" + image.inventoryNumber();
+        if(request == null)
+            return null;
+        return request.getScheme() + "://"
+                + request.getServerName() + ":"
+                + request.getServerPort()
+                + request.getContextPath() + "/" + image.inventoryNumber();
     }
 
     @JsonProperty("@type")

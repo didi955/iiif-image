@@ -79,7 +79,8 @@ public class ImageService {
 
         try {
             BufferedImage resource = ImageHelper.fetchImage(inventoryNumber, imagePath);
-            Image image = new Image(inventoryNumber, resource.getWidth(), resource.getHeight(), "tiff");
+            String format = imagePath.substring(imagePath.lastIndexOf(".") + 1);
+            Image image = new Image(inventoryNumber, resource.getWidth(), resource.getHeight(), format);
             return new ImageInfo(image);
         }
         catch (BadRequestException e) {

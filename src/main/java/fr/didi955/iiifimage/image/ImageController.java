@@ -43,7 +43,7 @@ public class ImageController {
                                                                                          @PathVariable(value = "size") String size,
                                                                                          @PathVariable(value = "rotation") String rotation,
                                                                                          @PathVariable(value = "quality") String quality,
-                                                                                         @PathVariable(value = "format") String format){
+                                                                                         @PathVariable(value = "format") String format) {
 
         return imageService.getImage(inventoryNumber, region, size, rotation, quality, format);
     }
