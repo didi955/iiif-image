@@ -6,8 +6,9 @@ public record Image(String inventoryNumber, int width, int height, String format
     public String toString() {
         return "Image{" +
                 "inventoryNumber='" + inventoryNumber + '\'' +
-                ", width='" + width + '\'' +
-                ", height='" + height + '\'' +
+                ", width=" + width +
+                ", height=" + height +
+                ", format='" + format + '\'' +
                 '}';
     }
 }
